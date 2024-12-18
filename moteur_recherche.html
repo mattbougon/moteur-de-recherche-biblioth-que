@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Recherche Bibliographie Ostéopathie</title>
+    <style>
+      body {
+          font-family: Arial, sans-serif;
+          max-width: 800px;
+          margin: 0 auto;
+          padding: 20px;
+      }
+      .search-container {
+          text-align: center;
+          margin-bottom: 20px;
+      }
+      #searchInput {
+          width: 70%;
+          padding: 10px;
+          font-size: 16px;
+          border: 2px solid #ddd;
+          border-radius: 5px;
+      }
+      #searchButton {
+          padding: 10px 20px;
+          font-size: 16px;
+          background-color: #007bff;
+          color: white;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+      }
+      #searchButton:hover {
+          background-color: #0056b3;
+      }
+      .category {
+          margin: 10px 0;
+          padding: 10px;
+          background-color: #f8f9fa;
+          border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="search-container">
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="Rechercher dans la bibliographie..."
+      />
+      <button id="searchButton" onclick="search()">Rechercher</button>
+    </div>
+
+    <div id="results"></div>
+
+    <script>
+      const categories = {
+          'Diététique et Nutrition': ['nutrition', 'alimentation', 'régime', 'diète'],
+          'Psychologie et communication': ['psychologie', 'communication', 'comportement'],
+          'Neuro': ['neurologie', 'système nerveux', 'cerveau'],
+          'Système MS': ['musculaire', 'squelettique', 'articulations'],
+          'Sémio Vascu': ['vasculaire', 'circulation', 'sang'],
+          'Techniques et manipulations': ['manipulation', 'technique', 'traitement'],
+          'Tests orthopédiques': ['test', 'diagnostic', 'évaluation'],
+          'Raisonnement clinique': ['clinique', 'raisonnement', 'analyse'],
+          'Livres': ['livre', 'ouvrage', 'manuel'],
+          'Sites de recherches': ['recherche', 'site', 'ressource']
+      };
+
+      function search() {
+          const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+          const resultsDiv = document.getElementById('results');
+          resultsDiv.innerHTML = '';
+
+          if (searchTerm === '') {
+              resultsDiv.innerHTML = '<p>Veuillez entrer un terme de recherche</p>';
+              return;
+          }
+
+          let found = false;
+          for (let category in categories) {
+              if (categories[category].some(keyword => searchTerm.includes(keyword)) ||
+                  category.toLowerCase().includes(searchTerm)) {
+                  found = true;
+                  const categoryDiv = document.createElement('div');
+                  categoryDiv.className = 'category';
+                  categoryDiv.innerHTML = `<h3>${category}</h3>`;
+                  resultsDiv.appendChild(categoryDiv);
+              }
+          }
+
+          if (!found) {
+              resultsDiv.innerHTML = '<p>Aucun résultat trouvé</p>';
+          }
+      }
+
+      // Recherche au press de la touche Enter
+      document.getElementById('searchInput').addEventListener('keypress', function(e) {
+          if (e.key === 'Enter') {
+              search();
+          }
+      });
+    </script>
+  </body>
+</html>
